@@ -62,7 +62,7 @@ void MainWindow::on_ConvertButton_clicked()
         {
          i++;
          ui->progressBar->setValue(i);
-         //emit on_progressBar_valueChanged(i);
+
          QList<QStandardItem *> standardItemsList;
          QString line = in.readLine();
         if (i==6) {
@@ -94,7 +94,7 @@ void MainWindow::on_ConvertButton_clicked()
         for (int j = 0; j < columns; j++) {
 
                 textData += csvModel->data(csvModel->index(i,j)).toString();
-                textData += separator ;     // for .csv file format
+                textData += separator;     // for .csv file format
         }
         textData += "\n";             // (optional: for new line segmentation)
     }
@@ -102,14 +102,17 @@ void MainWindow::on_ConvertButton_clicked()
 QString outstring;
 outstring = ui->lineEdit_2->text();
 outstring.chop(4);
-     QFile csvFile(outstring+"_2.csv");
-     if(csvFile.open( QIODevice::WriteOnly ))
-     {
-            QTextStream savestream(&csvFile);
-            savestream << textData;
-         }
-         // Закрываем файл - готово
-         csvFile.close();
+if(!(ui->lineEdit_2->text().isEmpty()))
+    {
+         QFile csvFile(outstring+"_2.csv");
+         if(csvFile.open( QIODevice::WriteOnly ))
+         {
+                QTextStream savestream(&csvFile);
+                savestream << textData;
+             }
+             // Закрываем файл - готово
+             csvFile.close();
+    }
 }
 
 void MainWindow::on_progressBar_valueChanged(int value)
